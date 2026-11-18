@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="fr" data-time="jour">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Au Coin de la Rue — Pizzeria fait maison à Caen, place Maurice Fouque</title>
+<meta name="description" content="Pizzas, sandwichs et salades 100 % faits maison avec des produits frais et locaux. Au Coin de la Rue, 1 place Maurice Fouque à Caen. Ouvert 6j/7, fermé le lundi. 07 83 03 15 47.">
+<meta property="og:title" content="Au Coin de la Rue — Pizzeria fait maison à Caen">
+<meta property="og:description" content="La bonne pizza, c'est juste au coin. 100 % fait maison, produits frais et locaux.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F7EFDF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500..900;1,9..144,400..900&family=Figtree:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7EFDF;--paper2:#EFE3CB;--ink:#1C1712;--muted:#6B5F50;--line:rgba(28,23,18,.14);
+  --tomato:#D8432B;--tomato-d:#B2321D;--basil:#2F6B3A;--crust:#E1A04A;--night:#12141F;--chalk:#1D2722;
+  --ease:cubic-bezier(.16,1,.3,1);--pop:cubic-bezier(.3,1.6,.5,1);
+  --display:"Fraunces",Georgia,serif;--body:"Figtree",system-ui,sans-serif;--hand:"Caveat",cursive;
+  /* scène — jour */
+  --sky-top:#8EC5E8;--sky-bot:#F7E6C4;--far:#CDBDA0;--wall:#EADBC0;--wall-d:#D8C6A6;--win:#A7BFCD;--winlit:#A7BFCD;
+  --glass-top:#3A2A20;--glass-bot:#7A4A2A;--walk:#CFC2AC;--road:#5B5A5E;--celestial:#FFD36B;--stars:0;--lamp:0;--oven:.55
+}
+:root[data-time="soir"]{--sky-top:#3E3F78;--sky-bot:#F2965A;--far:#8C6B6A;--wall:#D7B48F;--wall-d:#BF9873;--win:#6E6F8E;--winlit:#F4B860;--glass-top:#4A2414;--glass-bot:#B5562A;--walk:#A98F7A;--road:#3D3A48;--celestial:#FF8A4C;--stars:.25;--lamp:.65;--oven:.85}
+:root[data-time="nuit"]{--sky-top:#0A0F24;--sky-bot:#2A3360;--far:#1A1F38;--wall:#4B4656;--wall-d:#3A3645;--win:#262D49;--winlit:#F6C56B;--glass-top:#5A2410;--glass-bot:#D2662A;--walk:#2E2C3A;--road:#1B1A24;--celestial:#F3EFD9;--stars:1;--lamp:1;--oven:1}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,svg,canvas{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:3px solid var(--tomato);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1200px,100% - 40px);margin-inline:auto}
+.tbc{display:inline-block;font:700 10px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:#FFE08A;color:#4A3500;padding:4px 6px;border-radius:4px;vertical-align:middle}
+.eyebrow{font:700 12px/1 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--tomato)}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.98;letter-spacing:-.02em;font-variation-settings:"SOFT" 100,"WONK" 1}
+h2{font-size:clamp(38px,6vw,76px)}
+h2 em,h1 em{font-style:italic;font-weight:500;color:var(--tomato)}
+
+/* boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .25s var(--pop),background .25s,color .25s,box-shadow .25s;will-change:transform}
+.btn:active{transform:scale(.96)}
+.btn-red{background:var(--tomato);color:#fff;box-shadow:0 10px 24px -10px rgba(216,67,43,.8)}
+.btn-red:hover{background:var(--tomato-d);transform:translateY(-2px)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ink:hover{transform:translateY(-2px)}
+.btn-line{border:2px solid currentColor}
+.btn-line:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn svg{width:18px;height:18px}
+
+/* preloader */
+#pre{position:fixed;inset:0;z-index:100;background:var(--tomato);display:grid;place-items:center;color:#fff;transition:clip-path 1s var(--ease)}
+#pre.out{clip-path:inset(0 0 100% 0)}
+.box{width:120px;height:120px;perspective:500px;position:relative}
+.box .base{position:absolute;inset:0;background:#F2E2C2;border-radius:6px;display:grid;place-items:center;overflow:hidden}
+.box .base i{width:84%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 50%,#D8432B 0 58%,#E9B566 60% 100%)}
+.box .lid{position:absolute;inset:0;background:#EADBB9;border-radius:6px;transform-origin:50% 0;transform:rotateX(0);border:2px solid #d9c49a;display:grid;place-items:center;font:italic 700 15px/1.05 var(--display);color:#1C1712;text-align:center;backface-visibility:hidden}
+#pre .count{margin-top:22px;font:800 13px/1 var(--body);letter-spacing:.3em}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:14px 0;transition:background .4s,box-shadow .4s,padding .4s}
+.nav.solid{background:rgba(247,239,223,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line);padding:8px 0}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.badge{width:46px;height:46px;border-radius:50%;background:var(--paper);border:2.5px solid var(--ink);display:grid;place-items:center;font:italic 800 11px/.92 var(--display);text-align:center;position:relative}
+.badge::after{content:"";position:absolute;right:-3px;top:-3px;width:14px;height:14px;border-radius:50% 50% 50% 0;background:var(--crust);border:2px solid var(--ink);transform:rotate(-20deg)}
+.logo b{font:italic 800 19px/1 var(--display)}
+.logo small{display:block;font:700 9.5px/1 var(--body);letter-spacing:.28em;color:var(--muted);margin-top:3px}
+.nav ul{display:flex;gap:26px;list-style:none;font-weight:600;font-size:15px}
+.nav ul a{text-decoration:none;position:relative}
+.nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--tomato);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
+.nav ul a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav .btn{min-height:44px;padding:0 18px;font-size:15px}
+@media(max-width:900px){.nav ul{display:none}}
+@media(max-width:600px){.nav .btn span{display:none}.nav .btn{width:48px;padding:0}.logo b{font-size:17px}.badge{width:40px;height:40px;font-size:10px}}
+
+/* hero */
+.hero{min-height:100svh;padding:110px 0 40px;display:flex;align-items:center;position:relative}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(48px,7.2vw,104px)}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .ln>span{display:inline-block}
+.hero p.lead{font-size:clamp(17px,1.6vw,20px);color:var(--muted);max-width:30em;margin:22px 0 28px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px}
+.status{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:14px;background:#fff;border:1px solid var(--line);padding:8px 14px 8px 10px;border-radius:999px;margin-bottom:22px}
+.status i{width:10px;height:10px;border-radius:50%;background:#9a9a9a;box-shadow:0 0 0 4px rgba(0,0,0,.06)}
+.status.open i{background:#2FA35B;box-shadow:0 0 0 4px rgba(47,163,91,.18);animation:pulse 1.8s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(47,163,91,0)}}
+.proof{display:flex;align-items:center;gap:14px;margin-top:30px;font-size:14px;color:var(--muted)}
+.proof .stars{color:var(--crust);font-size:18px;letter-spacing:2px}
+.proof b{color:var(--ink);font-size:16px}
+.scene-card{position:relative;border-radius:28px;overflow:hidden;box-shadow:0 40px 80px -40px rgba(60,30,10,.55);background:var(--sky-bot)}
+.scene{width:100%;height:auto}
+.scene *{transition:fill 1.2s var(--ease),stop-color 1.2s var(--ease),opacity 1.2s var(--ease)}
+.st-top{stop-color:var(--sky-top)}.st-bot{stop-color:var(--sky-bot)}.gl-top{stop-color:var(--glass-top)}.gl-bot{stop-color:var(--glass-bot)}
+.f-far{fill:var(--far)}.f-wall{fill:var(--wall)}.f-walld{fill:var(--wall-d)}.f-walk{fill:var(--walk)}.f-road{fill:var(--road)}.f-cel{fill:var(--celestial)}
+.w{fill:var(--win)}.w.lit{fill:var(--winlit)}
+.stars-g{opacity:var(--stars)}.lamp-g{opacity:var(--lamp)}.oven-g{opacity:var(--oven);animation:flick 2.4s infinite}
+@keyframes flick{0%,100%{transform:scale(1)}30%{transform:scale(1.06)}55%{transform:scale(.97)}80%{transform:scale(1.04)}}
+.oven-g{transform-box:fill-box;transform-origin:50% 100%}
+.neon{font:800 20px var(--body);letter-spacing:.08em;fill:#FF5A7A;filter:drop-shadow(0 0 4px #FF5A7A) drop-shadow(0 0 10px #FF2D55)}
+.neon.off{fill:#7A5560;filter:none}
+.smoke circle{fill:#fff;opacity:0;animation:smoke 5s infinite linear;transform-box:fill-box;transform-origin:center}
+.smoke circle:nth-child(2){animation-delay:1.6s}.smoke circle:nth-child(3){animation-delay:3.2s}
+@keyframes smoke{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:.55}100%{opacity:0;transform:translate(26px,-90px) scale(2.2)}}
+.time-switch{position:absolute;left:14px;bottom:14px;display:flex;background:rgba(20,16,12,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:999px;padding:4px;gap:2px}
+.time-switch button{color:#fff;font-weight:700;font-size:13px;padding:0 14px;min-height:36px;border-radius:999px;transition:background .3s,color .3s}
+.time-switch button[aria-pressed="true"]{background:#fff;color:var(--ink)}
+.scene-tag{position:absolute;right:14px;top:14px;background:rgba(255,255,255,.88);border-radius:999px;font-size:12px;font-weight:700;padding:7px 12px}
+@media(max-width:900px){
+  .hero{padding-top:96px;min-height:auto}
+  .hero .wrap{grid-template-columns:1fr;gap:30px}
+  .hero .scene-card{order:-1;border-radius:22px}
+}
+
+/* marquee */
+.marquee{background:var(--ink);color:var(--paper);overflow:hidden;padding:18px 0;transform:rotate(-1.2deg);margin:30px -10px 0}
+.marquee .track{display:flex;width:max-content;animation:mq 30s linear infinite}
+.marquee span{font:italic 700 clamp(22px,3vw,34px)/1 var(--display);padding:0 22px;white-space:nowrap;display:flex;align-items:center;gap:44px}
+.marquee span::after{content:"";width:16px;height:16px;border-radius:50%;background:var(--tomato);box-shadow:inset -4px -4px 0 var(--crust)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+section{position:relative}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:50px;flex-wrap:wrap}
+.sec-head p{max-width:30em;color:var(--muted)}
+
+/* FOUR */
+#four{background:var(--night);color:#F5EBDD;padding:120px 0;margin-top:80px;overflow:hidden}
+#four::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.08;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#four .sec-head p{color:#B9AE9F}
+#four h2 em{color:var(--crust)}
+.four-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.stage{position:relative;width:100%;max-width:520px;margin-inline:auto;aspect-ratio:1/1.25}
+.oven-back{position:absolute;left:31%;width:38%;top:20%;height:24%;border-radius:50% 50% 6px 6px/80% 80% 6px 6px;background:radial-gradient(ellipse at 50% 85%,#5a1f08 0,#240b04 60%,#120603 100%);overflow:hidden;z-index:1}
+.oven-back .fire{position:absolute;bottom:6%;width:34%;height:62%;filter:blur(3px);mix-blend-mode:screen;transition:opacity .6s}
+.oven-back .fire.l{left:2%}.oven-back .fire.r{right:2%}
+.oven-back .fire i{position:absolute;bottom:0;left:50%;width:60%;height:100%;border-radius:50% 50% 40% 40%/70% 70% 30% 30%;background:radial-gradient(ellipse at 50% 90%,#FFE7A0 0,#FFAA33 30%,#E8501C 60%,rgba(232,80,28,0) 75%);transform-origin:50% 100%;animation:flame 1.1s infinite ease-in-out;margin-left:-30%}
+.oven-back .fire i:nth-child(2){width:45%;margin-left:-40%;animation-duration:.8s;animation-delay:.2s;height:80%}
+.oven-back .fire i:nth-child(3){width:45%;margin-left:-5%;animation-duration:.95s;animation-delay:.4s;height:70%}
+@keyframes flame{0%,100%{transform:scaleY(1) skewX(0)}25%{transform:scaleY(1.15) skewX(4deg)}50%{transform:scaleY(.9) skewX(-3deg)}75%{transform:scaleY(1.08) skewX(2deg)}}
+.oven-back .heat{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(255,150,60,.55),transparent 70%);opacity:.35;transition:opacity .6s}
+.stage.baking .oven-back .heat{opacity:1}
+#pz{position:absolute;left:22%;width:56%;top:53%;aspect-ratio:1;z-index:2;touch-action:manipulation}
+.oven-front{position:absolute;left:0;top:0;width:100%;z-index:3;pointer-events:none;overflow:visible}
+.peel{position:absolute;left:50%;top:53%;width:56%;margin-left:-28%;aspect-ratio:1;z-index:1;pointer-events:none}
+.peel::before{content:"";position:absolute;left:50%;bottom:-12%;width:7%;height:22%;margin-left:-3.5%;background:linear-gradient(90deg,#8a5a32,#b07a48,#8a5a32);border-radius:4px}
+.steam{position:absolute;left:30%;width:40%;top:46%;height:18%;z-index:4;pointer-events:none;opacity:0;transition:opacity .8s}
+.steam.on{opacity:1}
+.steam i{position:absolute;bottom:0;width:10px;height:60px;border-radius:10px;background:linear-gradient(transparent,rgba(255,255,255,.5),transparent);filter:blur(4px);animation:steam 2.6s infinite ease-in}
+.steam i:nth-child(1){left:25%}.steam i:nth-child(2){left:50%;animation-delay:.8s}.steam i:nth-child(3){left:72%;animation-delay:1.5s}
+@keyframes steam{0%{transform:translateY(20px) scaleY(.5);opacity:0}40%{opacity:1}100%{transform:translateY(-60px) scaleY(1.4) translateX(8px);opacity:0}}
+.bake-label{position:absolute;left:50%;top:72%;transform:translate(-50%,0);z-index:5;font:800 13px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:#FFD9A0;opacity:0;transition:opacity .4s;white-space:nowrap}
+.stage.baking .bake-label{opacity:1}
+.peel{transition:opacity .5s}.stage.baking .peel{opacity:0}
+.builder h3{font:700 13px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:#B9AE9F;margin:0 0 14px}
+.builder .step{margin-bottom:30px}
+.seg{display:inline-flex;background:rgba(255,255,255,.07);padding:5px;border-radius:999px;gap:4px}
+.seg button{min-height:44px;padding:0 20px;border-radius:999px;font-weight:700;display:flex;align-items:center;gap:8px;transition:background .3s,color .3s}
+.seg button i{width:14px;height:14px;border-radius:50%}
+.seg button[aria-pressed="true"]{background:#F5EBDD;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{min-height:44px;padding:0 16px 0 12px;border-radius:999px;border:1.5px solid rgba(245,235,221,.25);font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:background .25s,border-color .25s,color .25s,transform .3s var(--pop)}
+.chip i{width:16px;height:16px;border-radius:50%;flex:none}
+.chip:hover{border-color:#F5EBDD}
+.chip[aria-pressed="true"]{background:#F5EBDD;color:var(--ink);border-color:#F5EBDD;transform:scale(1.04)}
+.builder .actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.builder .actions .btn-line{color:#F5EBDD}
+.builder .actions .btn-line:hover{background:#F5EBDD;color:var(--ink);border-color:#F5EBDD}
+.hint{font-size:13px;color:#9C9282;margin-top:12px}
+.result{margin-top:26px;border:1.5px dashed rgba(245,235,221,.3);border-radius:20px;padding:22px;display:none}
+.result.show{display:block;animation:rise .7s var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+.result p.t{font:italic 700 26px/1.1 var(--display);margin-bottom:6px}
+.result p.d{color:#B9AE9F;font-size:15px;margin-bottom:16px}
+.result .row{display:flex;flex-wrap:wrap;gap:10px}
+.result small{display:block;margin-top:12px;color:#8F8576;font-size:12.5px}
+@media(max-width:900px){
+  #four{padding:90px 0}
+  .four-grid{grid-template-columns:1fr;gap:20px}
+  .stage{max-width:420px}
+}
+
+/* RUE — vitrines */
+#rue{padding:100px 0 0}
+.rue-pin{overflow:hidden}
+.rue-track{display:flex;gap:28px;padding:10px 20px 120px;width:max-content}
+.vit{width:min(380px,80vw);flex:none;background:#fff;border-radius:22px 22px 14px 14px;border:2px solid var(--ink);overflow:hidden;position:relative}
+.vit .aw{height:46px;background:repeating-linear-gradient(90deg,var(--c,var(--tomato)) 0 26px,var(--paper) 26px 52px);position:relative}
+.vit .aw::after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:14px;background:radial-gradient(circle at 13px 0,var(--c,var(--tomato)) 12px,transparent 13px) 0 0/52px 14px,radial-gradient(circle at 39px 0,var(--paper) 12px,transparent 13px) 0 0/52px 14px}
+.vit .ill{height:160px;display:grid;place-items:center;background:var(--paper2);border-bottom:2px solid var(--ink)}
+.vit .ill svg{width:150px;height:150px}
+.vit .txt{padding:24px 26px 28px}
+.vit .num{font:700 12px/1 var(--body);letter-spacing:.2em;color:var(--muted)}
+.vit h3{font-size:30px;margin:10px 0 10px}
+.vit p{color:var(--muted);font-size:16px}
+.rue-road{height:70px;background:var(--ink);position:relative;margin-top:-70px}
+.rue-road::before{content:"";position:absolute;left:0;right:0;top:50%;height:4px;background:repeating-linear-gradient(90deg,#F5EBDD 0 40px,transparent 40px 80px);opacity:.6}
+@media(min-width:901px){.rue-track{padding-left:max(20px,calc((100vw - 1200px)/2))}}
+@media(max-width:900px){
+  .rue-track{width:auto;flex-direction:column;align-items:center;padding-bottom:70px}
+  .vit{width:100%;max-width:440px}
+  .rue-road{display:none}
+}
+
+/* ARDOISE */
+#carte{background:var(--chalk);color:#EFEDE4;padding:120px 0;overflow:hidden}
+#carte::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 10%,rgba(255,255,255,.07),transparent 50%),radial-gradient(ellipse at 80% 90%,rgba(255,255,255,.05),transparent 50%);pointer-events:none}
+#carte h2{font-family:var(--hand);font-weight:700;font-size:clamp(56px,8vw,104px);letter-spacing:0;line-height:.9}
+#carte h2 em{color:#F2B25B;font-weight:700}
+#carte .sec-head p{color:#B8C0B8}
+.board{border:12px solid #6E4A2C;border-radius:14px;box-shadow:inset 0 0 0 2px #4E321C,0 30px 60px -30px #000;padding:34px clamp(18px,4vw,48px) 40px;background:rgba(0,0,0,.12)}
+.demo{display:flex;gap:10px;align-items:center;font-size:13px;color:#C9CFC6;margin-bottom:24px;flex-wrap:wrap}
+.tabs{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+.tabs button{font:700 30px/1 var(--hand);padding:6px 16px 10px;min-height:48px;color:#AEB6AE;border-bottom:3px solid transparent;transition:color .3s,border-color .3s}
+.tabs button[aria-selected="true"]{color:#fff;border-color:#F2B25B}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:6px 44px}
+.item{display:grid;grid-template-columns:72px 1fr auto;gap:16px;align-items:center;padding:14px 0;border-bottom:1px dashed rgba(239,237,228,.2)}
+.item canvas{width:72px;height:72px;transition:transform .6s var(--ease)}
+.item:hover canvas{transform:rotate(40deg) scale(1.12)}
+.item h4{font:700 30px/1 var(--hand)}
+.item p{font-size:14.5px;color:#B8C0B8}
+.item .pr{font:700 26px/1 var(--hand);color:#F2B25B;text-align:right}
+.item .re{display:inline-block;margin-top:4px;font-size:13px;font-weight:700;color:#F2B25B;text-decoration:underline;text-underline-offset:3px;min-height:28px}
+.panel[hidden]{display:none}
+.panel .soon{font:600 26px/1.3 var(--hand);color:#D9DDD5;padding:20px 0}
+@media(max-width:900px){.menu{grid-template-columns:1fr}.item{grid-template-columns:60px 1fr auto}.item canvas{width:60px;height:60px}}
+
+/* pizza du mois */
+#mois{padding:120px 0}
+.mois-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.scratch{position:relative;aspect-ratio:1/1.1;max-width:460px;width:100%;margin-inline:auto;border-radius:26px;overflow:hidden;background:#fff;border:2px solid var(--ink);box-shadow:12px 12px 0 var(--ink)}
+.scratch .under{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;gap:10px;background:radial-gradient(circle at 50% 30%,#FFF6E4,#F4E2BE)}
+.scratch .under canvas{width:56%;aspect-ratio:1}
+.scratch .under b{font:italic 800 30px/1.05 var(--display)}
+.scratch #sc{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;transition:opacity .8s}
+.scratch #sc.done{opacity:0;pointer-events:none}
+@media(max-width:900px){.mois-grid{grid-template-columns:1fr;gap:40px}#mois{padding:90px 0}.scratch{box-shadow:8px 8px 0 var(--ink);width:calc(100% - 8px);margin-left:0}}
+@media(max-width:480px){.days li{flex-direction:column;gap:2px}}
+
+/* avis */
+#avis{padding:0 0 120px}
+.avis-card{background:var(--tomato);color:#fff;border-radius:32px;padding:clamp(34px,6vw,70px);display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,60px);align-items:center;overflow:hidden;position:relative}
+.avis-card .big{font:900 clamp(96px,16vw,190px)/.8 var(--display);letter-spacing:-.04em}
+.avis-card .big small{font-size:.32em;opacity:.7;letter-spacing:0}
+.avis-card h3{font-size:clamp(28px,3.4vw,44px);margin-bottom:12px}
+.avis-card p{opacity:.88;margin-bottom:22px;max-width:32em}
+.avis-card .stars{font-size:28px;letter-spacing:4px;color:#FFD37A;margin-bottom:10px}
+.avis-card .btn-ink{background:#fff;color:var(--ink)}
+@media(max-width:700px){.avis-card{grid-template-columns:1fr}}
+
+/* infos */
+#infos{padding:0 0 120px}
+.infos-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:24px}
+.ic{background:#fff;border:1px solid var(--line);border-radius:26px;padding:clamp(26px,4vw,44px)}
+.ic h3{font-size:34px;margin-bottom:18px}
+.days{list-style:none;display:grid;gap:2px}
+.days li{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-weight:600}
+.days li span:last-child{color:var(--muted);font-weight:500}
+.days li.today{color:var(--tomato)}
+.days li.closed span:last-child{color:var(--tomato);font-weight:700}
+.addr{font:italic 700 28px/1.15 var(--display);margin-bottom:6px}
+.ic .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.plaque{display:inline-block;background:#1E3A6E;color:#fff;border:3px solid #fff;outline:2px solid #1E3A6E;border-radius:8px;padding:8px 16px;font:800 13px/1.25 var(--body);letter-spacing:.12em;text-align:center;margin-bottom:18px}
+.plaque small{display:block;font-size:10px;opacity:.8;letter-spacing:.2em}
+.copied{font-size:13px;color:var(--basil);font-weight:700;opacity:0;transition:opacity .3s;margin-left:6px}
+.copied.on{opacity:1}
+@media(max-width:900px){.infos-grid{grid-template-columns:1fr}}
+
+/* footer */
+footer{background:var(--ink);color:#CFC6B8;padding:70px 0 40px}
+footer .big{font:italic 800 clamp(44px,9vw,130px)/.9 var(--display);color:var(--paper);letter-spacing:-.03em;margin-bottom:40px}
+footer .big em{color:var(--tomato);font-weight:500}
+footer .cols{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;font-size:14px;border-top:1px solid rgba(255,255,255,.12);padding-top:26px}
+footer a{text-decoration:none}
+footer a:hover{color:#fff}
+.theone{display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:700}
+.theone i{width:8px;height:8px;border-radius:50%;background:var(--tomato)}
+
+/* barre mobile */
+.mbar{display:none}
+@media(max-width:760px){
+  .mbar{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:60;display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--ink);border-radius:20px;padding:6px;gap:6px;box-shadow:0 14px 30px -10px rgba(0,0,0,.5);transform:translateY(140%);transition:transform .6s var(--ease)}
+  .mbar.on{transform:none}
+  .mbar a{min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#fff;text-decoration:none;font-size:12px;font-weight:700;border-radius:14px}
+  .mbar a:first-child{background:var(--tomato)}
+  .mbar svg{width:18px;height:18px}
+  body{padding-bottom:90px}
+  body{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .marquee .track{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div id="pre" aria-hidden="true">
+  <div style="display:flex;flex-direction:column;align-items:center">
+    <div class="box"><div class="base"><i></i></div><div class="lid">Au Coin<br>de la Rue</div></div>
+    <div class="count">000</div>
+  </div>
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="Au Coin de la Rue, accueil">
+      <span class="badge" aria-hidden="true">Au<br>Coin</span>
+      <span><b>Au Coin de la Rue</b><small>PIZZERIA · CAEN</small></span>
+    </a>
+    <ul>
+      <li><a href="#four">Le four</a></li>
+      <li><a href="#carte">La carte</a></li>
+      <li><a href="#mois">Pizza du mois</a></li>
+      <li><a href="#infos">Infos</a></li>
+    </ul>
+    <a class="btn btn-red" href="tel:+33783031547" aria-label="Appeler le 07 83 03 15 47">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+      <span>07 83 03 15 47</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="status" id="status"><i></i><span>Horaires du jour</span></div>
+      <h1 aria-label="La bonne pizza, c'est juste au coin.">
+        <span class="ln"><span>La bonne pizza,</span></span>
+        <span class="ln"><span>c'est <em>juste</em></span></span>
+        <span class="ln"><span><em>au coin.</em></span></span>
+      </h1>
+      <p class="lead">Pizzas, sandwichs et salades 100&nbsp;% faits maison, avec des produits frais et locaux. Place Maurice Fouque, à Caen. On vous attend du mardi au dimanche.</p>
+      <div class="ctas">
+        <a class="btn btn-red" href="tel:+33783031547">Appeler pour commander</a>
+        <a class="btn btn-line" href="#four">Composer ma pizza</a>
+      </div>
+      <div class="proof">
+        <span class="stars" aria-hidden="true">★★★★★</span>
+        <span><b>5,0/5</b> · plus de 210 avis <span class="tbc">source à confirmer</span></span>
+      </div>
+    </div>
+
+    <div class="scene-card">
+      <svg class="scene" viewBox="0 0 600 640" role="img" aria-label="Illustration de la façade de la pizzeria Au Coin de la Rue, place Maurice Fouque à Caen">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="st-top"/><stop offset="1" class="st-bot"/></linearGradient>
+          <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="gl-top"/><stop offset="1" class="gl-bot"/></linearGradient>
+          <pattern id="stripes" width="44" height="40" patternUnits="userSpaceOnUse"><rect width="22" height="40" fill="#D8432B"/><rect x="22" width="22" height="40" fill="#F7EFDF"/></pattern>
+          <radialGradient id="ovenglow"><stop offset="0" stop-color="#FFC15A"/><stop offset=".45" stop-color="#F0662A" stop-opacity=".75"/><stop offset="1" stop-color="#E5531F" stop-opacity="0"/></radialGradient>
+          <radialGradient id="lampg"><stop offset="0" stop-color="#FFE3A3" stop-opacity=".95"/><stop offset="1" stop-color="#FFE3A3" stop-opacity="0"/></radialGradient>
+          <linearGradient id="cone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE3A3" stop-opacity=".45"/><stop offset="1" stop-color="#FFE3A3" stop-opacity="0"/></linearGradient>
+        </defs>
+        <rect width="600" height="640" fill="url(#sky)"/>
+        <g class="stars-g" fill="#fff">
+          <circle cx="60" cy="50" r="1.6"/><circle cx="140" cy="90" r="1.2"/><circle cx="230" cy="40" r="1.8"/><circle cx="330" cy="70" r="1.1"/><circle cx="400" cy="30" r="1.5"/><circle cx="560" cy="60" r="1.3"/><circle cx="520" cy="150" r="1"/><circle cx="20" cy="130" r="1.2"/>
+        </g>
+        <circle class="f-cel" cx="150" cy="66" r="30"/>
+        <!-- silhouettes lointaines -->
+        <path class="f-far" d="M0 170h40v-30h50v50h30v-70h60v60h20V160h300v-20h40v40h60v460H0z"/>
+        <!-- immeuble -->
+        <rect class="f-wall" x="60" y="122" width="500" height="440"/>
+        <rect x="50" y="110" width="520" height="16" fill="#3A2E25"/>
+        <rect x="466" y="80" width="34" height="32" fill="#3A2E25"/>
+        <g class="smoke"><circle cx="483" cy="76" r="9"/><circle cx="483" cy="76" r="9"/><circle cx="483" cy="76" r="9"/></g>
+        <rect class="f-walld" x="60" y="214" width="500" height="6"/>
+        <rect class="f-walld" x="60" y="300" width="500" height="6"/>
+        <!-- fenêtres -->
+        <g>
+          <rect class="w" x="96" y="146" width="62" height="56" rx="3"/><rect class="w lit" x="206" y="146" width="62" height="56" rx="3"/><rect class="w" x="316" y="146" width="62" height="56" rx="3"/><rect class="w lit" x="426" y="146" width="62" height="56" rx="3"/>
+          <rect class="w lit" x="96" y="232" width="62" height="56" rx="3"/><rect class="w" x="206" y="232" width="62" height="56" rx="3"/><rect class="w lit" x="316" y="232" width="62" height="56" rx="3"/><rect class="w" x="426" y="232" width="62" height="56" rx="3"/>
+        </g>
+        <g stroke="#3A2E25" stroke-width="3" fill="none">
+          <path d="M96 146h62v56H96zM127 146v56M206 146h62v56h-62zM237 146v56M316 146h62v56h-62zM347 146v56M426 146h62v56h-62zM457 146v56"/>
+          <path d="M96 232h62v56H96zM127 232v56M206 232h62v56h-62zM237 232v56M316 232h62v56h-62zM347 232v56M426 232h62v56h-62zM457 232v56"/>
+        </g>
+        <!-- plaque de rue -->
+        <g transform="translate(74 318)">
+          <rect width="116" height="40" rx="6" fill="#1E3A6E"/><rect x="3.5" y="3.5" width="109" height="33" rx="4" fill="none" stroke="#fff" stroke-width="2"/>
+          <text x="58" y="18" text-anchor="middle" fill="#fff" font-family="Figtree" font-weight="800" font-size="9.5" letter-spacing="1.2">PLACE MAURICE</text>
+          <text x="58" y="30" text-anchor="middle" fill="#fff" font-family="Figtree" font-weight="800" font-size="9.5" letter-spacing="1.2">FOUQUE</text>
+        </g>
+        <!-- enseigne -->
+        <rect x="204" y="312" width="346" height="44" rx="4" fill="#1C1712"/>
+        <text x="377" y="341" text-anchor="middle" fill="#F7EFDF" font-family="Fraunces" font-style="italic" font-weight="800" font-size="24">Au Coin de la Rue</text>
+        <circle cx="226" cy="334" r="9" fill="#E1A04A"/><circle cx="226" cy="334" r="6" fill="#D8432B"/>
+        <circle cx="528" cy="334" r="9" fill="#E1A04A"/><circle cx="528" cy="334" r="6" fill="#D8432B"/>
+        <!-- store -->
+        <path d="M200 356H554V386a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0a12.65 10 0 0 1-25.3 0z" fill="url(#stripes)" stroke="#1C1712" stroke-width="2"/>
+        <!-- devanture -->
+        <rect x="208" y="392" width="338" height="170" fill="#2B211A"/>
+        <rect x="220" y="404" width="220" height="146" fill="url(#glass)"/>
+        <g class="oven-g"><ellipse cx="350" cy="520" rx="70" ry="44" fill="url(#ovenglow)"/></g>
+        <path d="M296 550v-30a54 46 0 0 1 108 0v30z" fill="#6B3A22"/>
+        <path d="M330 550v-20a20 18 0 0 1 40 0v20z" fill="#FF9A3C"/>
+        <path d="M336 550v-12a14 12 0 0 1 28 0v12z" fill="#FFD27A"/>
+        <rect x="220" y="532" width="80" height="18" fill="#4A2E1E"/>
+        <text class="neon" id="neon" x="300" y="446" text-anchor="middle">OUVERT</text>
+        <rect x="220" y="404" width="220" height="146" fill="none" stroke="#1C1712" stroke-width="4"/>
+        <path d="M232 416l40 40M246 416l26 26" stroke="#fff" stroke-opacity=".18" stroke-width="5"/>
+        <rect x="452" y="404" width="82" height="158" fill="#3A2A20"/>
+        <rect x="462" y="414" width="62" height="80" fill="url(#glass)" opacity=".85"/>
+        <circle cx="514" cy="510" r="4" fill="#E1A04A"/>
+        <text x="493" y="535" text-anchor="middle" fill="#E1A04A" font-family="Figtree" font-weight="800" font-size="9" letter-spacing="2">PIZZERIA</text>
+        <!-- trottoir / rue -->
+        <rect class="f-walk" x="0" y="562" width="600" height="40"/>
+        <rect x="0" y="600" width="600" height="6" fill="#1C1712" opacity=".35"/>
+        <rect class="f-road" x="0" y="604" width="600" height="36"/>
+        <path d="M20 624h50M120 624h50M220 624h50M320 624h50M420 624h50M520 624h50" stroke="#F7EFDF" stroke-opacity=".5" stroke-width="3"/>
+        <!-- chevalet ardoise -->
+        <g transform="translate(110 486)">
+          <path d="M6 92L22 0h42l16 92" fill="none" stroke="#6E4A2C" stroke-width="5"/>
+          <rect x="14" y="8" width="58" height="62" rx="3" fill="#1D2722" stroke="#6E4A2C" stroke-width="4"/>
+          <text x="43" y="30" text-anchor="middle" fill="#fff" font-family="Caveat" font-weight="700" font-size="13">Pizza</text>
+          <text x="43" y="44" text-anchor="middle" fill="#F2B25B" font-family="Caveat" font-weight="700" font-size="13">du mois</text>
+          <circle cx="43" cy="57" r="7" fill="#E1A04A"/><circle cx="43" cy="57" r="5" fill="#D8432B"/>
+        </g>
+        <!-- lampadaire -->
+        <g class="lamp-g"><path d="M36 300L-30 600h132z" fill="url(#cone)"/><circle cx="36" cy="292" r="46" fill="url(#lampg)"/></g>
+        <rect x="32" y="296" width="8" height="306" fill="#1C1712"/>
+        <path d="M22 282h28l-4 16H26z" fill="#1C1712"/><rect x="28" y="286" width="16" height="10" fill="#FFE3A3"/>
+      </svg>
+      <div class="time-switch" role="group" aria-label="Ambiance de la rue">
+        <button data-t="jour" aria-pressed="false">Midi</button>
+        <button data-t="soir" aria-pressed="false">Soir</button>
+        <button data-t="nuit" aria-pressed="false">Nuit</button>
+      </div>
+      <div class="scene-tag" id="sceneTag">La rue à votre heure</div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>100 % fait maison</span><span>Produits frais &amp; locaux</span><span>Pizzas · sandwichs · salades</span><span>Ouvert 6 jours sur 7</span><span>Place Maurice Fouque, Caen</span>
+    <span>100 % fait maison</span><span>Produits frais &amp; locaux</span><span>Pizzas · sandwichs · salades</span><span>Ouvert 6 jours sur 7</span><span>Place Maurice Fouque, Caen</span>
+  </div>
+</div>
+
+<!-- LE FOUR -->
+<section id="four">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow" style="color:var(--crust)">Pièce maîtresse</div>
+        <h2 style="margin-top:14px">Composez,<br><em>enfournez.</em></h2>
+      </div>
+      <p>Choisissez votre base, touchez vos garnitures, glissez la pizza au four. Quand elle vous plaît, envoyez-la au pizzaïolo en un message.</p>
+    </div>
+    <div class="four-grid">
+      <div class="stage" id="stage">
+        <div class="oven-back"><div class="heat"></div><div class="fire l"><i></i><i></i><i></i></div><div class="fire r"><i></i><i></i><i></i></div></div>
+        <div class="peel" aria-hidden="true"></div>
+        <canvas id="pz" aria-label="Aperçu de votre pizza" role="img"></canvas>
+        <svg class="oven-front" viewBox="0 0 400 248" aria-hidden="true">
+          <defs>
+            <pattern id="brick" width="40" height="20" patternUnits="userSpaceOnUse">
+              <rect width="40" height="20" fill="#9C4A2C"/><path d="M0 0h40M0 10h40M0 20h40M20 0v10M0 10v10M40 10v10" stroke="#6E2F18" stroke-width="2"/>
+            </pattern>
+            <linearGradient id="dome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></linearGradient>
+          </defs>
+          <path fill-rule="evenodd" d="M30 248V170C30 70 110 18 200 18s170 52 170 152v78zM126 214V170a74 66 0 0 1 148 0v44z" fill="url(#brick)"/>
+          <path fill-rule="evenodd" d="M30 248V170C30 70 110 18 200 18s170 52 170 152v78zM126 214V170a74 66 0 0 1 148 0v44z" fill="url(#dome)"/>
+          <path d="M126 214V170a74 66 0 0 1 148 0v44" fill="none" stroke="#E1A04A" stroke-width="7"/>
+          <rect x="20" y="214" width="360" height="34" rx="4" fill="#3A2A20"/>
+          <rect x="20" y="214" width="360" height="6" fill="#5A4030"/>
+          <rect x="180" y="0" width="40" height="22" fill="#3A2A20"/>
+        </svg>
+        <div class="steam" id="steam"><i></i><i></i><i></i></div>
+        <div class="bake-label" id="bakeLabel">Dans le four…</div>
+      </div>
+
+      <div class="builder">
+        <div class="step">
+          <h3>1 · La base</h3>
+          <div class="seg" role="group" aria-label="Base">
+            <button data-base="tomate" aria-pressed="true"><i style="background:#C83A24"></i>Tomate</button>
+            <button data-base="creme" aria-pressed="false"><i style="background:#F3E6C8"></i>Crème</button>
+          </div>
+        </div>
+        <div class="step">
+          <h3>2 · Les garnitures <span style="text-transform:none;letter-spacing:0;font-weight:500">(jusqu'à 6)</span></h3>
+          <div class="chips" id="chips"></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-red" id="bake">Enfourner</button>
+          <button class="btn btn-line" id="rand">Au hasard</button>
+          <button class="btn btn-line" id="clear">Vider</button>
+        </div>
+        <p class="hint" id="hint">Astuce : touchez une garniture, elle tombe sur la pâte.</p>
+        <div class="result" id="result" aria-live="polite">
+          <p class="t" id="resT">Elle sort du four.</p>
+          <p class="d" id="resD"></p>
+          <div class="row">
+            <a class="btn btn-red" id="sms" href="#">Envoyer ma commande par SMS</a>
+            <a class="btn btn-line" style="color:#F5EBDD" href="tel:+33783031547">Appeler</a>
+          </div>
+          <small>Votre commande est validée quand le pizzaïolo vous répond. Prix et disponibilités au téléphone. <span class="tbc">commande SMS à confirmer</span></small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LA RUE -->
+<section id="rue">
+  <div class="wrap sec-head rv">
+    <div>
+      <div class="eyebrow">Descendez la rue</div>
+      <h2 style="margin-top:14px">Quatre vitrines,<br><em>une seule adresse.</em></h2>
+    </div>
+    <p>Ce qui se passe derrière le comptoir, vitrine après vitrine.</p>
+  </div>
+  <div class="rue-pin" id="ruePin">
+    <div class="rue-track" id="rueTrack">
+      <article class="vit">
+        <div class="aw"></div>
+        <div class="ill"><svg viewBox="0 0 120 120" aria-hidden="true"><ellipse cx="60" cy="82" rx="44" ry="14" fill="#E1A04A"/><path d="M20 80c4-26 22-40 40-40s36 14 40 40" fill="#F4E2BE" stroke="#1C1712" stroke-width="3"/><path d="M40 62c6-6 14-8 20-8M58 48c8 0 16 4 22 12" stroke="#1C1712" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="92" cy="34" r="4" fill="#1C1712"/><circle cx="100" cy="44" r="3" fill="#1C1712"/><circle cx="84" cy="24" r="2.5" fill="#1C1712"/></svg></div>
+        <div class="txt"><div class="num">VITRINE 01</div><h3>Fait maison, de A à Z</h3><p>Tout est préparé sur place, à la main. Rien ne sort d'un sachet, tout sort de notre cuisine.</p></div>
+      </article>
+      <article class="vit" style="--c:var(--basil)">
+        <div class="aw"></div>
+        <div class="ill"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M22 60h76l-8 42H30z" fill="#C88B4A" stroke="#1C1712" stroke-width="3"/><circle cx="44" cy="52" r="14" fill="#D8432B" stroke="#1C1712" stroke-width="3"/><circle cx="72" cy="50" r="15" fill="#E04A32" stroke="#1C1712" stroke-width="3"/><path d="M58 36c4-10 12-12 18-10-2 8-10 12-18 10z" fill="#2F6B3A" stroke="#1C1712" stroke-width="2.5"/><path d="M30 76h60M34 88h52" stroke="#1C1712" stroke-width="2.5"/></svg></div>
+        <div class="txt"><div class="num">VITRINE 02</div><h3>Frais &amp; local</h3><p>Des produits frais, choisis au plus près de chez nous. La Normandie a de quoi garnir une pizza.</p></div>
+      </article>
+      <article class="vit" style="--c:var(--crust)">
+        <div class="aw"></div>
+        <div class="ill"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M14 74l44-44 10 10-44 44z" fill="#E1A04A" stroke="#1C1712" stroke-width="3"/><path d="M20 74l38-38" stroke="#D8432B" stroke-width="6"/><rect x="58" y="62" width="50" height="26" rx="10" fill="#F4E2BE" stroke="#1C1712" stroke-width="3"/><path d="M62 70h42M64 78h38" stroke="#2F6B3A" stroke-width="4"/><path d="M38 96c10-8 30-8 40 0" stroke="#2F6B3A" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="50" cy="94" r="4" fill="#D8432B"/><circle cx="66" cy="92" r="4" fill="#D8432B"/></svg></div>
+        <div class="txt"><div class="num">VITRINE 03</div><h3>Pizzas, sandwichs, salades</h3><p>Une faim de midi ou une soirée pizza : il y a toujours quelque chose de bon au comptoir.</p></div>
+      </article>
+      <article class="vit" style="--c:#1E3A6E">
+        <div class="aw"></div>
+        <div class="ill"><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="18" y="26" width="84" height="76" rx="8" fill="#fff" stroke="#1C1712" stroke-width="3"/><rect x="18" y="26" width="84" height="20" rx="8" fill="#D8432B" stroke="#1C1712" stroke-width="3"/><g fill="#1C1712"><circle cx="36" cy="62" r="5"/><circle cx="52" cy="62" r="5"/><circle cx="68" cy="62" r="5"/><circle cx="84" cy="62" r="5"/><circle cx="36" cy="82" r="5"/><circle cx="52" cy="82" r="5"/></g><path d="M64 76l12 12M76 76L64 88" stroke="#D8432B" stroke-width="4" stroke-linecap="round"/></svg></div>
+        <div class="txt"><div class="num">VITRINE 04</div><h3>Ouvert 6 jours sur 7</h3><p>Du mardi au dimanche. Le lundi, le four se repose (et nous aussi).</p></div>
+      </article>
+    </div>
+  </div>
+  <div class="rue-road" aria-hidden="true"></div>
+</section>
+
+<!-- ARDOISE -->
+<section id="carte">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow" style="color:#F2B25B">L'ardoise</div>
+        <h2 style="margin-top:10px">Ce qu'on sort<br><em>du four.</em></h2>
+      </div>
+      <p>Touchez « La recomposer » sur une pizza : elle s'installe directement dans le four, plus haut.</p>
+    </div>
+    <div class="board rv">
+      <div class="demo"><span class="tbc">Carte de démonstration</span> Noms, recettes et prix à remplacer par la carte réelle.</div>
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" aria-controls="p-pz" id="t-pz">Pizzas</button>
+        <button role="tab" aria-selected="false" aria-controls="p-sw" id="t-sw">Sandwichs</button>
+        <button role="tab" aria-selected="false" aria-controls="p-sa" id="t-sa">Salades</button>
+      </div>
+      <div class="panel" id="p-pz" role="tabpanel" aria-labelledby="t-pz"><div class="menu" id="menu"></div></div>
+      <div class="panel" id="p-sw" role="tabpanel" aria-labelledby="t-sw" hidden><p class="soon">Les sandwichs maison, garnis minute.<br><span class="tbc">liste à confirmer</span></p></div>
+      <div class="panel" id="p-sa" role="tabpanel" aria-labelledby="t-sa" hidden><p class="soon">Les salades fraîches du moment.<br><span class="tbc">liste à confirmer</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PIZZA DU MOIS -->
+<section id="mois">
+  <div class="wrap mois-grid">
+    <div class="rv">
+      <div class="eyebrow">Chaque mois, une nouvelle</div>
+      <h2 style="margin:14px 0 20px">La pizza<br><em>du mois.</em></h2>
+      <p style="color:var(--muted);max-width:28em;margin-bottom:26px">Une recette éphémère, de saison, qui ne reste qu'un mois à l'ardoise. Grattez la carte pour la découvrir, puis venez la goûter avant qu'elle disparaisse.</p>
+      <a class="btn btn-ink" href="https://www.instagram.com/au.coin.de.la.rue.pizzeria/" target="_blank" rel="noopener">Suivre sur Instagram</a>
+    </div>
+    <div class="scratch rv" id="scratch">
+      <div class="under">
+        <canvas id="moisPz" aria-hidden="true"></canvas>
+        <div class="eyebrow">Novembre</div>
+        <b>[Nom de la pizza du mois]</b>
+        <span class="tbc">recette à confirmer</span>
+      </div>
+      <canvas id="sc" aria-label="Carte à gratter : faites glisser votre doigt pour découvrir la pizza du mois"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- AVIS -->
+<section id="avis">
+  <div class="wrap">
+    <div class="avis-card rv">
+      <div class="big"><span id="note">0,0</span><small>/5</small></div>
+      <div>
+        <div class="stars" aria-hidden="true">★★★★★</div>
+        <h3>Plus de 210 avis. Le coin a ses fidèles.</h3>
+        <p>Vous êtes passés par chez nous ? Dites-nous ce que vous en avez pensé, on lit tout. <span class="tbc" style="background:#fff">note à confirmer</span></p>
+        <a class="btn btn-ink" href="https://www.instagram.com/au.coin.de.la.rue.pizzeria/" target="_blank" rel="noopener">Laisser mon avis</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFOS -->
+<section id="infos">
+  <div class="wrap">
+    <div class="sec-head rv"><div><div class="eyebrow">Infos pratiques</div><h2 style="margin-top:14px">Le coin,<br><em>c'est ici.</em></h2></div></div>
+    <div class="infos-grid">
+      <div class="ic rv">
+        <div class="plaque"><small>CAEN</small>PLACE MAURICE FOUQUE</div>
+        <p class="addr">1 place Maurice Fouque<br>14000 Caen</p>
+        <p style="color:var(--muted)">Sur place ou à emporter <span class="tbc">à confirmer</span></p>
+        <div class="btns">
+          <a class="btn btn-red" href="https://www.google.com/maps/search/?api=1&amp;query=Au+Coin+de+la+Rue+Pizzeria+1+Place+Maurice+Fouque+14000+Caen" target="_blank" rel="noopener">Itinéraire</a>
+          <a class="btn btn-line" href="tel:+33783031547">07 83 03 15 47</a>
+          <button class="btn btn-line" id="copy">Copier l'adresse</button><span class="copied" id="copied">Copiée</span>
+        </div>
+      </div>
+      <div class="ic rv">
+        <h3>Horaires</h3>
+        <ul class="days" id="days"></ul>
+        <p style="margin-top:14px;font-size:13px;color:var(--muted)">Fermé le lundi. <span class="tbc">créneaux horaires à confirmer</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="big">À tout à l'heure,<br><em>au coin.</em></p>
+    <div class="cols">
+      <div>© <span id="yr">2026</span> Au Coin de la Rue Pizzeria · 1 place Maurice Fouque, 14000 Caen · 07 83 03 15 47<br>Mentions légales <span class="tbc">à compléter</span></div>
+      <div><a href="https://www.instagram.com/au.coin.de.la.rue.pizzeria/" target="_blank" rel="noopener">Instagram</a></div>
+      <div><a class="theone" href="https://the-one-studio-ten.vercel.app" target="_blank" rel="noopener"><i></i>Site réalisé par The One</a></div>
+    </div>
+  </div>
+</footer>
+
+<nav class="mbar" id="mbar" aria-label="Actions rapides">
+  <a href="tel:+33783031547"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Appeler</a>
+  <a href="#four"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.5"/><circle cx="15" cy="9" r="1.5"/><circle cx="13" cy="15" r="1.5"/></svg>Composer</a>
+  <a href="https://www.google.com/maps/search/?api=1&amp;query=Au+Coin+de+la+Rue+Pizzeria+1+Place+Maurice+Fouque+14000+Caen" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.3 7-12a7 7 0 0 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Itinéraire</a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+"use strict";
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hasG = typeof gsap !== 'undefined';
+const $ = (s,c=document)=>c.querySelector(s), $$=(s,c=document)=>[...c.querySelectorAll(s)];
+const TEL='+33783031547';
+
+/* ---------- Horaires [À CONFIRMER] : 0 = dimanche ---------- */
+const H=[[11.5,14],[18,22]];
+const HOURS={0:H,1:[],2:H,3:H,4:H,5:H,6:H};
+const DAYN=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const fmt=h=>{const m=Math.round((h%1)*60);return Math.floor(h)+'h'+(m?String(m).padStart(2,'0'):'00')};
+function status(){
+  const d=new Date(),day=d.getDay(),h=d.getHours()+d.getMinutes()/60;
+  for(const [a,b] of HOURS[day]) if(h>=a&&h<b) return {open:true,txt:'Ouvert maintenant · jusqu\'à '+fmt(b)};
+  for(let k=0;k<8;k++){const dd=(day+k)%7;for(const [a] of HOURS[dd]){ if(k>0||a>h) return {open:false,txt:'Fermé · réouvre '+(k===0?'à ':k===1?'demain à ':DAYN[dd].toLowerCase()+' à ')+fmt(a)}}}
+  return {open:false,txt:'Fermé'};
+}
+const st=status();
+$('#status').classList.toggle('open',st.open);$('#status span').textContent=st.txt;
+const neon=$('#neon');neon.textContent=st.open?'OUVERT':'FERMÉ';neon.classList.toggle('off',!st.open);
+const days=$('#days'),today=new Date().getDay();
+[2,3,4,5,6,0,1].forEach(i=>{const li=document.createElement('li');if(i===today)li.className='today';if(!HOURS[i].length)li.classList.add('closed');
+  li.innerHTML='<span>'+DAYN[i]+(i===today?' · aujourd\'hui':'')+'</span><span>'+(HOURS[i].length?HOURS[i].map(([a,b])=>fmt(a)+' – '+fmt(b)).join(' · '):'Fermé')+'</span>';days.appendChild(li)});
+$('#yr').textContent=new Date().getFullYear();
+
+/* ---------- Rue à votre heure ---------- */
+const hr=new Date().getHours();
+let auto=hr>=7&&hr<17?'jour':hr>=17&&hr<20?'soir':'nuit';
+function setTime(t,user){document.documentElement.dataset.time=t;$$('.time-switch button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===t));
+  $('#sceneTag').textContent=user?'Ambiance : '+({jour:'midi',soir:'soir',nuit:'nuit'}[t]):'La rue, à l\'heure qu\'il est';}
+setTime(auto,false);
+$$('.time-switch button').forEach(b=>b.addEventListener('click',()=>setTime(b.dataset.t,true)));
+
+/* ---------- Rendu pizza (canvas) ---------- */
+function rng(seed){let s=seed>>>0||1;return()=>{s^=s<<13;s^=s>>>17;s^=s<<5;return ((s>>>0)%100000)/100000}}
+function hash(str){let h=2166136261;for(const c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function hex(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]}
+function mix(a,b,t){const A=hex(a),B=hex(b);return 'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(',')+')'}
+const TOPS={
+  mozza:{l:'Mozzarella',c:'#FFFDF4',n:13,d:.68},
+  jambon:{l:'Jambon',c:'#E8949A',n:9,d:.66},
+  champi:{l:'Champignons',c:'#D8C3A5',n:10,d:.68},
+  poivrons:{l:'Poivrons',c:'#3F8A3A',n:10,d:.68},
+  oignons:{l:'Oignons rouges',c:'#9B4A86',n:11,d:.7},
+  olives:{l:'Olives noires',c:'#2A2420',n:12,d:.7},
+  chevre:{l:'Chèvre',c:'#FBF8F0',n:8,d:.62},
+  pdt:{l:'Pommes de terre',c:'#F1D27A',n:10,d:.64},
+  viande:{l:'Viande hachée',c:'#6B3B26',n:22,d:.72},
+  basilic:{l:'Basilic',c:'#2F7A33',n:7,d:.62}
+};
+const ORDER=['mozza','chevre','jambon','viande','pdt','champi','poivrons','oignons','olives','basilic'];
+const LAY={};
+function lay(k){if(LAY[k])return LAY[k];const r=rng(hash(k)+11),T=TOPS[k],a=[];
+  for(let i=0;i<T.n;i++){const ang=r()*6.283,d=Math.sqrt(.08+r()*.92)*T.d;a.push({x:Math.cos(ang)*d,y:Math.sin(ang)*d,rot:r()*6.283,s:.8+r()*.45,dl:r()*.6,q:r()})}
+  return LAY[k]=a}
+function wob(ctx,r,q,n=16,amp=.16){ctx.beginPath();for(let i=0;i<=n;i++){const a=i/n*6.283,k=r*(1+Math.sin(a*3+q*20)*amp+Math.cos(a*2+q*13)*amp*.7);const x=Math.cos(a)*k,y=Math.sin(a)*k;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.closePath()}
+const ease=t=>1-Math.pow(1-t,3);
+function drawItem(ctx,k,R,b,it){
+  const darker=(c)=>mix(c.startsWith('#')?c:'#000000','#3A2410',b*.22);
+  switch(k){
+    case 'mozza':wob(ctx,R*.11*it.s,it.q,18,.14);ctx.fillStyle=mix('#FFFDF4','#F4D9A0',b);ctx.fill();
+      if(b>.55){ctx.fillStyle='rgba(150,80,30,'+((b-.55)*1.1)+')';ctx.beginPath();ctx.ellipse(R*.02,-R*.02,R*.025,R*.016,it.rot,0,7);ctx.fill()}break;
+    case 'chevre':ctx.beginPath();ctx.arc(0,0,R*.075*it.s,0,7);ctx.fillStyle=mix('#FBF8F0','#F2DDB0',b);ctx.fill();ctx.lineWidth=R*.012;ctx.strokeStyle=mix('#E6DCC6','#C9A46A',b);ctx.stroke();break;
+    case 'jambon':ctx.beginPath();ctx.roundRect(-R*.08*it.s,-R*.055*it.s,R*.16*it.s,R*.11*it.s,R*.03);ctx.fillStyle=darker('#E8949A');ctx.fill();ctx.lineWidth=R*.01;ctx.strokeStyle='#F6C9C6';ctx.stroke();break;
+    case 'viande':wob(ctx,R*.032*it.s,it.q,9,.25);ctx.fillStyle=darker('#6B3B26');ctx.fill();break;
+    case 'pdt':ctx.beginPath();ctx.arc(0,0,R*.075*it.s,0,7);ctx.fillStyle=mix('#F1D27A','#E0A64A',b);ctx.fill();ctx.lineWidth=R*.012;ctx.strokeStyle=mix('#D9B254','#B07A2E',b);ctx.stroke();break;
+    case 'champi':ctx.fillStyle=darker('#D8C3A5');ctx.beginPath();ctx.arc(0,0,R*.07*it.s,Math.PI,0);ctx.closePath();ctx.fill();ctx.fillRect(-R*.02*it.s,0,R*.04*it.s,R*.05*it.s);ctx.lineWidth=R*.01;ctx.strokeStyle='#9E8463';ctx.beginPath();ctx.arc(0,0,R*.07*it.s,Math.PI,0);ctx.stroke();break;
+    case 'poivrons':ctx.beginPath();ctx.arc(0,0,R*.07*it.s,0,2.1);ctx.lineWidth=R*.032;ctx.lineCap='round';ctx.strokeStyle=darker(it.q>.5?'#3F8A3A':'#D8432B');ctx.stroke();break;
+    case 'oignons':ctx.beginPath();ctx.arc(0,0,R*.06*it.s,0,3.2);ctx.lineWidth=R*.016;ctx.lineCap='round';ctx.strokeStyle=darker('#9B4A86');ctx.stroke();ctx.beginPath();ctx.arc(0,0,R*.04*it.s,.4,2.8);ctx.stroke();break;
+    case 'olives':ctx.beginPath();ctx.arc(0,0,R*.042*it.s,0,7);ctx.moveTo(R*.018*it.s,0);ctx.arc(0,0,R*.018*it.s,0,7,true);ctx.fillStyle='#211C19';ctx.fill('evenodd');break;
+    case 'basilic':ctx.beginPath();ctx.ellipse(0,0,R*.075*it.s,R*.036*it.s,0,0,7);ctx.fillStyle=mix('#2F7A33','#24552A',b*.5);ctx.fill();ctx.beginPath();ctx.moveTo(-R*.06*it.s,0);ctx.lineTo(R*.06*it.s,0);ctx.lineWidth=R*.006;ctx.strokeStyle='#5FA563';ctx.stroke();break;
+  }
+}
+function drawPizza(cv,state){
+  const ctx=cv.getContext('2d'),W=cv.width,R=W*.46,b=state.bake||0;
+  ctx.clearRect(0,0,W,W);ctx.save();ctx.translate(W/2,W/2);
+  ctx.save();ctx.shadowColor='rgba(30,12,2,.45)';ctx.shadowBlur=W*.05;ctx.shadowOffsetY=W*.02;
+  ctx.beginPath();ctx.arc(0,0,R,0,7);ctx.fillStyle=mix('#EAD4A4','#C98A3E',b);ctx.fill();ctx.restore();
+  const g=ctx.createRadialGradient(0,0,R*.72,0,0,R);g.addColorStop(0,mix('#F1DEB2','#DDA45A',b));g.addColorStop(.8,mix('#EBD1A0','#C98236',b));g.addColorStop(1,mix('#DDBE86','#9C5A26',b));
+  ctx.beginPath();ctx.arc(0,0,R,0,7);ctx.fillStyle=g;ctx.fill();
+  const lr=rng(77),nsp=Math.floor(b*b*40);
+  for(let i=0;i<40;i++){const a=lr()*6.283,d=R*(.86+lr()*.11),s=R*(.012+lr()*.024),al=.35+lr()*.4;if(i<nsp){ctx.fillStyle='rgba(48,26,12,'+al+')';ctx.beginPath();ctx.ellipse(Math.cos(a)*d,Math.sin(a)*d,s*1.5,s,a,0,7);ctx.fill()}}
+  // sauce
+  const sr=rng(5);ctx.beginPath();for(let i=0;i<=60;i++){const a=i/60*6.283,k=R*(.83+Math.sin(a*5)*.012+Math.sin(a*11+1)*.01);i?ctx.lineTo(Math.cos(a)*k,Math.sin(a)*k):ctx.moveTo(Math.cos(a)*k,Math.sin(a)*k)}ctx.closePath();
+  ctx.fillStyle=state.base==='creme'?mix('#F3E6C8','#EBCF98',b):mix('#C83A24','#A42C1A',b);ctx.fill();
+  if(state.base!=='creme'){for(let i=0;i<26;i++){const a=sr()*6.283,d=Math.sqrt(sr())*R*.78;ctx.fillStyle='rgba(255,120,90,.18)';ctx.beginPath();ctx.arc(Math.cos(a)*d,Math.sin(a)*d,R*(.01+sr()*.03),0,7);ctx.fill()}}
+  for(const k of ORDER){const p=state.tops[k]||0;if(p<=0)continue;
+    for(const it of lay(k)){const loc=Math.min(1,Math.max(0,(p*1.6-it.dl)/1));if(loc<=0)continue;const e=ease(loc);
+      ctx.save();ctx.globalAlpha=Math.min(1,loc*2.2);ctx.translate(it.x*R,it.y*R-(1-e)*R*.4);ctx.rotate(it.rot);const sc=1+(1-e)*.5;ctx.scale(sc,sc);drawItem(ctx,k,R,b,it);ctx.restore()}}
+  // brillance
+  const sh=ctx.createRadialGradient(-R*.3,-R*.35,0,-R*.3,-R*.35,R*.9);sh.addColorStop(0,'rgba(255,255,255,'+(.12+b*.06)+')');sh.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.beginPath();ctx.arc(0,0,R,0,7);ctx.fillStyle=sh;ctx.fill();
+  ctx.restore();
+}
+function sizeCanvas(cv){const dpr=Math.min(2,devicePixelRatio||1),w=cv.getBoundingClientRect().width||cv.offsetWidth||300;cv.width=cv.height=Math.round(w*dpr)}
+
+/* ---------- Le four ---------- */
+const pz=$('#pz'),stage=$('#stage');
+const S={base:'tomate',tops:{mozza:1,basilic:1},target:{mozza:1,basilic:1},bake:0};
+let busy=false,raf=0;
+function loop(){let moving=false;
+  for(const k of ORDER){const t=S.target[k]?1:0,c=S.tops[k]||0;if(c!==t){moving=true;const n=c+(t-c)*0.0+(t>c?.035:-.08);S.tops[k]=t>c?Math.min(t,n):Math.max(0,n)}}
+  drawPizza(pz,S);raf=moving?requestAnimationFrame(loop):0}
+function kick(){if(!raf)raf=requestAnimationFrame(loop)}
+const chips=$('#chips');
+ORDER.forEach(k=>{const b=document.createElement('button');b.className='chip';b.dataset.k=k;b.innerHTML='<i style="background:'+TOPS[k].c+';box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.25)"></i>'+TOPS[k].l;b.setAttribute('aria-pressed',!!S.target[k]);
+  b.addEventListener('click',()=>{if(busy)return;const on=!S.target[k];if(on&&Object.keys(S.target).filter(x=>S.target[x]).length>=6){hint('Six garnitures maximum : retirez-en une d\'abord.');return}
+    S.target[k]=on;if(!on)delete S.target[k];b.setAttribute('aria-pressed',on);unbake();kick()});chips.appendChild(b)});
+$$('.seg button').forEach(b=>b.addEventListener('click',()=>{if(busy)return;S.base=b.dataset.base;$$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));unbake();kick()}));
+function hint(t){$('#hint').textContent=t}
+function syncChips(){$$('.chip').forEach(c=>c.setAttribute('aria-pressed',!!S.target[c.dataset.k]))}
+function unbake(){if(S.bake>0){S.bake=0;$('#result').classList.remove('show');$('#steam').classList.remove('on');$('#bake').textContent='Enfourner'}}
+$('#clear').addEventListener('click',()=>{if(busy)return;S.target={};syncChips();unbake();kick();hint('La pâte vous attend. Touchez une garniture.')});
+$('#rand').addEventListener('click',()=>{if(busy)return;const pool=ORDER.filter(k=>k!=='mozza');S.target={mozza:1};const n=2+Math.floor(Math.random()*3);
+  while(Object.keys(S.target).length<n+1){S.target[pool[Math.floor(Math.random()*pool.length)]]=1}
+  S.base=Math.random()<.65?'tomate':'creme';$$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.base===S.base));
+  for(const k of ORDER) if(!S.target[k]) S.tops[k]=0; else S.tops[k]=0;syncChips();unbake();kick()});
+function summary(){const t=ORDER.filter(k=>S.target[k]).map(k=>TOPS[k].l.toLowerCase());return 'Base '+(S.base==='creme'?'crème':'tomate')+(t.length?', '+t.join(', '):', sans garniture')}
+function done(){const s=summary();$('#resT').textContent='Elle sort du four.';$('#resD').textContent=s+'.';
+  const body='Bonjour ! Je voudrais commander une pizza : '+s+'. (via votre site)';$('#sms').href='sms:'+TEL+'?&body='+encodeURIComponent(body);
+  $('#result').classList.add('show');$('#steam').classList.add('on');$('#bake').textContent='Recuire une autre';busy=false;hint('Modifiez une garniture pour repartir d\'une pâte crue.')}
+$('#bake').addEventListener('click',()=>{if(busy)return;
+  if(S.bake>=1){unbake();kick();return}
+  busy=true;for(const k of ORDER) S.tops[k]=S.target[k]?1:0;
+  if(!hasG||RM){S.bake=1;drawPizza(pz,S);done();return}
+  stage.classList.add('baking');const lbl=$('#bakeLabel');
+  const tl=gsap.timeline({onComplete:()=>{stage.classList.remove('baking');done()}});
+  tl.to(pz,{yPercent:-82,scaleX:.5,scaleY:.2,duration:1.1,ease:'power3.inOut'})
+    .to(S,{bake:1,duration:2.6,ease:'none',onUpdate:()=>{drawPizza(pz,S);lbl.textContent='Dans le four… '+Math.round(S.bake*100)+' %'}})
+    .to(pz,{yPercent:0,scaleX:1,scaleY:1,duration:1.1,ease:'power3.inOut'});
+});
+
+/* ---------- Ardoise ---------- */
+const MENU=[
+  {n:'Margherita',d:'Tomate, mozzarella, basilic',base:'tomate',t:['mozza','basilic']},
+  {n:'La Reine',d:'Tomate, mozzarella, jambon, champignons',base:'tomate',t:['mozza','jambon','champi']},
+  {n:'La Potagère',d:'Tomate, mozzarella, poivrons, oignons rouges, olives',base:'tomate',t:['mozza','poivrons','oignons','olives']},
+  {n:'La Chèvre',d:'Crème, mozzarella, chèvre, oignons rouges',base:'creme',t:['mozza','chevre','oignons']},
+  {n:'La Paysanne',d:'Crème, mozzarella, jambon, pommes de terre',base:'creme',t:['mozza','jambon','pdt']},
+  {n:'La Hachée',d:'Tomate, mozzarella, viande hachée, oignons, olives',base:'tomate',t:['mozza','viande','oignons','olives']}
+];
+const menu=$('#menu');const thumbs=[];
+MENU.forEach((m,i)=>{const el=document.createElement('div');el.className='item';
+  el.innerHTML='<canvas aria-hidden="true"></canvas><div><h4>'+m.n+'</h4><p>'+m.d+'</p><button class="re" data-i="'+i+'">La recomposer au four</button></div><div class="pr">—,— €</div>';
+  menu.appendChild(el);thumbs.push([el.querySelector('canvas'),m])});
+function drawThumbs(){thumbs.forEach(([c,m])=>{sizeCanvas(c);const tops={};m.t.forEach(k=>tops[k]=1);drawPizza(c,{base:m.base,tops,bake:1})})}
+menu.addEventListener('click',e=>{const b=e.target.closest('.re');if(!b||busy)return;const m=MENU[+b.dataset.i];
+  S.base=m.base;S.target={};m.t.forEach(k=>S.target[k]=1);for(const k of ORDER)S.tops[k]=0;
+  $$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.base===S.base));syncChips();unbake();
+  const go=()=>{kick();hint('« '+m.n+' » est sur la pelle. Il ne reste qu\'à enfourner.')};
+  if(window.__lenis)window.__lenis.scrollTo('#four',{offset:-20,duration:1.4,onComplete:go});else{$('#four').scrollIntoView({behavior:RM?'auto':'smooth'});setTimeout(go,600)}});
+$$('.tabs button').forEach(b=>b.addEventListener('click',()=>{$$('.tabs button').forEach(x=>{x.setAttribute('aria-selected',x===b);$('#'+x.getAttribute('aria-controls')).hidden=x!==b})}));
+
+/* ---------- Carte à gratter ---------- */
+const sc=$('#sc'),moisPz=$('#moisPz');let scratched=false;
+function paintScratch(){const r=sc.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);sc.width=r.width*dpr;sc.height=r.height*dpr;const c=sc.getContext('2d');
+  c.globalCompositeOperation='source-over';const g=c.createLinearGradient(0,0,sc.width,sc.height);g.addColorStop(0,'#D8432B');g.addColorStop(1,'#B2321D');c.fillStyle=g;c.fillRect(0,0,sc.width,sc.height);
+  c.fillStyle='rgba(255,255,255,.08)';for(let y=0;y<sc.height;y+=34*dpr)for(let x=(y/34/dpr%2)*20*dpr;x<sc.width;x+=40*dpr){c.beginPath();c.arc(x,y,6*dpr,0,7);c.fill()}
+  c.fillStyle='#F7EFDF';c.textAlign='center';c.font='italic 800 '+(40*dpr)+'px Fraunces, Georgia, serif';c.fillText('Grattez ici',sc.width/2,sc.height/2);
+  c.font='700 '+(13*dpr)+'px Figtree, sans-serif';c.fillText('LA PIZZA DU MOIS SE CACHE DESSOUS',sc.width/2,sc.height/2+34*dpr)}
+let drawing=false,last=null,moves=0;
+function scr(e){const r=sc.getBoundingClientRect(),dpr=sc.width/r.width,x=(e.clientX-r.left)*dpr,y=(e.clientY-r.top)*dpr,c=sc.getContext('2d');
+  c.globalCompositeOperation='destination-out';c.lineCap='round';c.lineJoin='round';c.lineWidth=46*dpr;c.beginPath();c.moveTo(last?last[0]:x,last?last[1]:y);c.lineTo(x,y);c.stroke();last=[x,y];
+  if(++moves%12===0)check()}
+function check(){const c=sc.getContext('2d'),d=c.getImageData(0,0,sc.width,sc.height).data;let clear=0,tot=0;for(let i=3;i<d.length;i+=4*40){tot++;if(d[i]<20)clear++}
+  if(clear/tot>.45&&!scratched){scratched=true;sc.classList.add('done')}}
+sc.addEventListener('pointerdown',e=>{drawing=true;last=null;sc.setPointerCapture(e.pointerId);scr(e)});
+sc.addEventListener('pointermove',e=>{if(drawing)scr(e)});
+['pointerup','pointercancel'].forEach(t=>sc.addEventListener(t,()=>{drawing=false;last=null;check()}));
+sc.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){scratched=true;sc.classList.add('done')}});sc.tabIndex=0;
+
+/* ---------- Copier ---------- */
+$('#copy').addEventListener('click',()=>{const t='Au Coin de la Rue, 1 place Maurice Fouque, 14000 Caen';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{$('#copied').classList.add('on');setTimeout(()=>$('#copied').classList.remove('on'),1800)}).catch(()=>{})});
+
+/* ---------- Init canvases ---------- */
+function initCanvases(){sizeCanvas(pz);drawPizza(pz,S);sizeCanvas(moisPz);drawPizza(moisPz,{base:'creme',tops:{mozza:1,chevre:1,pdt:1,basilic:1},bake:1});drawThumbs();if(!scratched)paintScratch()}
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{sizeCanvas(pz);drawPizza(pz,S);drawThumbs();sizeCanvas(moisPz);drawPizza(moisPz,{base:'creme',tops:{mozza:1,chevre:1,pdt:1,basilic:1},bake:1});if(!scratched)paintScratch()},200)});
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(initCanvases);
+initCanvases();
+S.tops={mozza:0,basilic:0};
+
+/* ---------- Nav + barre mobile ---------- */
+const nav=$('#nav'),mbar=$('#mbar');
+function onScroll(){const y=scrollY;nav.classList.toggle('solid',y>30);mbar.classList.toggle('on',y>innerHeight*.6)}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ---------- Motion ---------- */
+const pre=$('#pre');
+function counter(){const el=$('#note');if(!hasG||RM){el.textContent='5,0';return}
+  const o={v:0};gsap.to(o,{v:5,duration:1.6,ease:'power2.out',scrollTrigger:{trigger:'#avis',start:'top 75%'},onUpdate:()=>el.textContent=o.v.toFixed(1).replace('.',',')})}
+if(!hasG||RM){pre.remove();counter();kick();return}
+gsap.registerPlugin(ScrollTrigger);
+if(typeof Lenis!=='undefined'){const lenis=new Lenis({lerp:.1});window.__lenis=lenis;lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
+  $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id.length>1&&$(id)){e.preventDefault();lenis.scrollTo(id,{offset:id==='#top'?0:-20,duration:1.3})}}))}
+gsap.set('.hero h1 .ln>span',{yPercent:115});gsap.set(['.hero .status','.hero .lead','.hero .ctas','.hero .proof'],{opacity:0,y:24});gsap.set('.scene-card',{opacity:0,scale:.94});
+const cnt=$('#pre .count'),o={v:0};
+gsap.timeline()
+ .to(o,{v:100,duration:1.1,ease:'power2.inOut',onUpdate:()=>cnt.textContent=String(Math.round(o.v)).padStart(3,'0')})
+ .to('#pre .lid',{rotationX:-110,duration:.7,ease:'power3.out'},.35)
+ .add(()=>pre.classList.add('out'))
+ .to('.hero h1 .ln>span',{yPercent:0,duration:1.1,stagger:.09,ease:'expo.out'},'+=.2')
+ .to('.scene-card',{opacity:1,scale:1,duration:1.2,ease:'expo.out'},'<')
+ .to(['.hero .status','.hero .lead','.hero .ctas','.hero .proof'],{opacity:1,y:0,duration:.9,stagger:.08,ease:'expo.out'},'<.15')
+ .add(()=>{pre.remove();kick()});
+$$('.rv').forEach(el=>gsap.from(el,{opacity:0,y:50,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 86%'}}));
+gsap.to('.scene-card .scene',{yPercent:6,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+const mm=gsap.matchMedia();
+mm.add('(min-width: 901px)',()=>{const track=$('#rueTrack');
+  const tw=gsap.to(track,{x:()=>-(track.scrollWidth-innerWidth+40),ease:'none',scrollTrigger:{trigger:'#rue',start:'top top',end:()=>'+='+(track.scrollWidth-innerWidth),pin:'#rue',scrub:1,invalidateOnRefresh:true,anticipatePin:1}});
+  return()=>tw.scrollTrigger&&tw.scrollTrigger.kill()});
+mm.add('(max-width: 900px)',()=>{$$('.vit').forEach(v=>gsap.from(v,{opacity:0,y:60,rotate:-2,duration:1,ease:'expo.out',scrollTrigger:{trigger:v,start:'top 88%'}}))});
+counter();
+})();
+</script>
+</body>
+</html>
